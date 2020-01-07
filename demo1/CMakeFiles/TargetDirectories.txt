@@ -1,0 +1,3 @@
+/Users/chentong/Android/taixin/HowToLearnNdk/demo1/CMakeFiles/edit_cache.dir
+/Users/chentong/Android/taixin/HowToLearnNdk/demo1/CMakeFiles/rebuild_cache.dir
+/Users/chentong/Android/taixin/HowToLearnNdk/demo1/CMakeFiles/helloBin.dir
