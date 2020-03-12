@@ -51,9 +51,52 @@ public class NativeLib {
     public static native int getAnimalNum(Animal animal);
 
     //调用实例方法
-    public native void callInstanceMethod(Animal animal);
+    public static native void callInstanceMethod(Animal animal);
 
     //调用静态方法
-    public native String callStaticMethod(Animal animal);
+    public static native String callStaticMethod(Animal animal);
+
+    //构造方法 public String(char value[]) // Java String 类的其中一个构造方法
+    public static native String newStringInstance();
+
+    //构造方法 Animal(String name)
+    public static native Animal invokeAnimalConstructor(String name);
+
+    //构造方法 Animal(String name)  延迟初始化 AllocObject
+    public static native Animal allocAnimalConstructor(String name);
+
+    //调用父类方法
+    public static native void callSuperMethod();
+
+    //调用缓存字段 避免 FindClass GetFieldID ,GetMethodID重复调用
+
+    //使用时缓存
+    public static native void staticCacheField(Animal animal);
+
+    //初始化缓存
+    static {
+        initCacheMethodId();
+    }
+    public static native void initCacheMethodId(); // 静态代码块中进行缓存
+
+    public static native void callCacheMethod(Animal animal);
+
+    // FindClass 是局部引用，不能static缓存
+    //(*env)->DeleteLocalRef(env, jstr);
+
+    //局部引用
+    public static native void localRef();
+
+    //全局引用
+    public static native void gloablRef(Animal animal);
+
+    //弱引用
+    public static native void weakRef(Animal animal);
+
+    //native 处理java异常
+    public static native void nativeInvokeJavaException();
+
+    //native 抛出java异常
+    public static native void nativeThrowException() throws IllegalArgumentException;
 
 }
