@@ -7,7 +7,7 @@
 #include "bitmapops.h"
 #include "../util/logutil.h"
 #include <android/bitmap.h>
-#include <cstring>
+#include <string.h>
 
 jobject generateBitmap(JNIEnv *env, uint32_t width, uint32_t height);
 

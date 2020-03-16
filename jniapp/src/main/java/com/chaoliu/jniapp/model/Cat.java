@@ -11,7 +11,7 @@ public class Cat extends Animal {
 
     public Cat(String name) {
         super(name);
-        LogUtil.Companion.d("Cat Construct call....");
+        LogUtil.d("Cat Construct call....");
     }
 
     @Override

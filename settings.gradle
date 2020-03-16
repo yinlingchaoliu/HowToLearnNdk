@@ -1,1 +1,1 @@
-include ':app', ':jniapp'
+include  ':app', ':jniapp', ':opengl'

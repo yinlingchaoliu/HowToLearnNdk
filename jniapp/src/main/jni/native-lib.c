@@ -1,7 +1,15 @@
 #include <jni.h>
-#include <string>
+#include <string.h>
 #include <memory.h>
+#include <stdio.h>
+#include "util/logutil.h"
 
+/**
+ * thanks xyang0917
+ * @author chentong
+ * @date  2020-03-16
+ *
+ */
 JNIEXPORT jint JNICALL
 Java_com_chaoliu_jniapp_NativeLib_plus(JNIEnv *env, jclass type, jint a, jint b) {
     jint sum = a + b;
@@ -43,12 +51,12 @@ Java_com_chaoliu_jniapp_NativeLib_printf(JNIEnv *env, jclass type, jstring str_)
 JNIEXPORT void JNICALL
 Java_com_chaoliu_jniapp_NativeLib_printfCritical(JNIEnv *env, jclass type, jstring str_) {
 
-    const jchar *c_str = (*env)->GetStringCritical(env, str_, NULL);
+    const jchar * chars = (*env)->GetStringCritical(env, str_, NULL);
 
-    if (c_str == NULL)
+    if (chars == NULL)
         return;
 
-    (*env)->ReleaseStringUTFChars(env, str_, c_str);
+    (*env)->ReleaseStringCritical(env, str_, chars);
 }
 
 JNIEXPORT jint JNICALL
@@ -67,8 +75,8 @@ Java_com_chaoliu_jniapp_NativeLib_printfRegion(JNIEnv *env, jclass type, jstring
     memset(outbuf, 0x00, sizeof(outbuf));
     int len = (*env)->GetStringLength(env, str_);
     //获得指定范围字符串
-    (*env)->GetStringUTFRegion(env, str_, 0, len, outbuf);
-    printf("%s", outbuf);
+    (*env)->GetStringRegion(env, str_, 0, len, outbuf);
+    LOGD("%p", outbuf);
 }
 
 JNIEXPORT jint JNICALL
@@ -223,7 +231,7 @@ Java_com_chaoliu_jniapp_NativeLib_callInstanceMethod(JNIEnv *env, jclass type,
 
     if (mid == NULL) return;
 
-    (*env)->CallVoidMethod(animal, mid, 2);
+    (*env)->CallVoidMethod(env, animal, mid, 2);
 }
 
 JNIEXPORT jstring JNICALL
@@ -266,8 +274,8 @@ Java_com_chaoliu_jniapp_NativeLib_newStringInstance(JNIEnv *env, jclass type) {
 
     //清理内存
     (*env)->DeleteLocalRef(env, charArr);
-    (*env)->DeleteLocalRef(env, stringCls);
-    (*env)->ReleaseStringUTFChars(env, jstr, chars);
+    (*env)->DeleteGlobalRef(env, stringCls);
+    (*env)->ReleaseStringChars(env, jstr, chars);
 
     return result;
 }
@@ -333,7 +341,7 @@ Java_com_chaoliu_jniapp_NativeLib_callSuperMethod(JNIEnv *env, jclass type) {
 
     if (catCls == NULL) return;
 
-    jmethodID catInitMid = (*env)->GetFieldID(env, catCls, "<init>", "(Ljava/lang/String;)V");
+    jmethodID catInitMid = (*env)->GetMethodID(env, catCls, "<init>", "(Ljava/lang/String;)V");
 
     if (catInitMid == NULL)
         return;
@@ -416,7 +424,7 @@ Java_com_chaoliu_jniapp_NativeLib_localRef(JNIEnv *env, jclass type) {
     //字符串转换为char类型
     jstring jstr = (*env)->NewStringUTF(env, "LocalRef Word Test");
     int len = (*env)->GetStringUTFLength(env, jstr);
-    const jchar *cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
+    const jchar * cstr = (const jchar *) (*env)->GetStringUTFChars(env, jstr, NULL);
 
     //char数组
     jcharArray charArr = (*env)->NewCharArray(env, len);
@@ -426,7 +434,7 @@ Java_com_chaoliu_jniapp_NativeLib_localRef(JNIEnv *env, jclass type) {
     //局部引用释放
     (*env)->DeleteLocalRef(env, animalCls);
     (*env)->DeleteLocalRef(env, charArr);
-    (*env)->ReleaseStringUTFChars(env, jstr, cstr);
+    (*env)->ReleaseStringUTFChars(env, jstr, (const char *) cstr);
     (*env)->DeleteLocalRef(env, jstr);
 }
 

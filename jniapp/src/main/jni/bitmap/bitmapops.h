@@ -3,6 +3,7 @@
 //
 
 #include <jni.h>
+#include <android/bitmap.h>
 
 #ifndef HOWTOLEARNNDK_BITMAPOPS_H
 #define HOWTOLEARNNDK_BITMAPOPS_H

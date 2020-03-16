@@ -20,7 +20,7 @@ public class Animal {
 
 
     public String getName() {
-        LogUtil.Companion.d("call getName method");
+        LogUtil.d("call getName method");
         return this.name;
     }
 
@@ -30,31 +30,31 @@ public class Animal {
 
     // C++ 调用 Java 的实例方法
     public void callInstanceMethod(int num) {
-        LogUtil.Companion.d("call instance method and num is " + num);
+        LogUtil.d("call instance method and num is " + num);
     }
 
     // C++ 调用 Java 的类方法
     public static String callStaticMethod(String str) {
 
         if (str != null) {
-            LogUtil.Companion.d("call static method with " + str);
+            LogUtil.d("call static method with " + str);
         } else {
-            LogUtil.Companion.d("call static method str is null");
+            LogUtil.d("call static method str is null");
         }
         return str;
     }
 
     public static String callStaticMethod(String[] strs, int num) {
-        LogUtil.Companion.d("call static method with string array");
+        LogUtil.d("call static method with string array");
         if (strs != null) {
             for (String str : strs) {
-                LogUtil.Companion.d("str in array is " + str);
+                LogUtil.d("str in array is " + str);
             }
         }
         return "";
     }
 
     public static void callStaticVoidMethod() {
-        LogUtil.Companion.d("call static void method");
+        LogUtil.d("call static void method");
     }
 }

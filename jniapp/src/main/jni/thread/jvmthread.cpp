@@ -119,13 +119,13 @@ void posixThreads(JNIEnv *env, jobject runObj, jint threadnum) {
     }
 
     for (int i = 0; i < threadnum; ++i) {
-        void *result = NULL;
+        void * result = NULL;
         if (pthread_join(handles[i], &result) != 0) {
             throwByName(env, runtimeException, "Unable to join thread");
         } else {
-            LOGD("return value is %d",result);
+            LOGD("return value is %li", (long)result);
             char message[26];
-            sprintf(message, "Worker %d returned %d", i, result);
+            sprintf(message, "Worker %d returned %li", i, (long)result);
             jstring msg = env->NewStringUTF(message);
             //打印native信息
             printNativeMsg(env,msg);
@@ -175,7 +175,7 @@ void *run(void *args) {
         // 从 Java 虚拟机上分离当前线程
         gVm->DetachCurrentThread();
     }
-    return (void *) threadRunArgs->result;
+    return & threadRunArgs->result;
 }
 
 //获得runnable方法
